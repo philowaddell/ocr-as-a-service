@@ -1,0 +1,23 @@
+.uploadContainer {
+  padding: 25px;
+  align-self: center;
+}
+
+.queueContainer {
+  flex-grow: 1;
+  width: 90%;
+  align-self: center;
+  overflow-y: scroll;
+  -ms-overflow-style: none;   /* Hide scrollbar for IE and Edge */
+  scrollbar-width: none;      /* Hide scrollbar for Firefox */
+}
+
+ /* Hide scrollbar for Chrome, Safari and Opera */
+ .queueContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.submitContainer {
+  padding: 25px;
+  align-self: flex-end;
+}

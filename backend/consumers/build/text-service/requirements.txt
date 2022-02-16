@@ -1,0 +1,6 @@
+numpy==1.21.4
+opencv-python==4.5.4.60
+pika==1.2.0
+Pillow==8.4.0
+pytesseract==0.3.8
+tornado==6.1

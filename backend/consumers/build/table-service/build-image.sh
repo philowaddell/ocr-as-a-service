@@ -1,0 +1,1 @@
+docker build -t table-service:latest --build-arg SERVICE=table ../../

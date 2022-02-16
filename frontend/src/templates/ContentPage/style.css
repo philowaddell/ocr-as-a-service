@@ -1,0 +1,16 @@
+.viewport {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.scrollport {
+  flex-grow: 1;
+  overflow-y: scroll;
+}
+
+.content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}

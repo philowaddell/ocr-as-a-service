@@ -1,0 +1,75 @@
+version: "3.9"
+services:
+  rabbit-service:
+    build:
+      context: ./rabbit-service
+      dockerfile: Dockerfile
+    image: rabbit-service:prod
+    networks:
+      ocr-network:
+        ipv4_address: 172.16.0.24
+    ports:
+      - "15674:15674"
+      - "15672:15672" 
+      - "5672:5672"
+  table-service:
+    build:
+      context: ./consumers
+      dockerfile: Dockerfile
+      args:
+        SERVICE: table
+    image: table-service:prod
+    networks:
+      - ocr-network
+    environment:
+      - QUEUE_NAME=table_extraction_queue
+      - ROUTING_KEY=extract_table
+      - ENV=PROD
+      - DEBUG=False
+      - PROD_URL=amqp://guest:guest@172.16.0.24:5672/%2F
+  text-service:
+    build:
+      context: ./consumers
+      dockerfile: Dockerfile
+      args:
+        SERVICE: text
+    image: text-service:prod
+    networks:
+      - ocr-network
+    environment:
+      - QUEUE_NAME=text_extraction_queue
+      - ROUTING_KEY=extract_text
+      - ENV=PROD
+      - DEBUG=False
+      - PROD_URL=amqp://guest:guest@172.16.0.24:5672/%2F
+  pdf-service:
+    build:
+      context: ./consumers
+      dockerfile: Dockerfile
+      args:
+        SERVICE: pdf
+    image: pdf-service:prod
+    networks:
+      - ocr-network
+    environment:
+      - QUEUE_NAME=searchable_pdf_creation_queue
+      - ROUTING_KEY=create_searchable_pdf
+      - ENV=PROD
+      - DEBUG=False
+      - PROD_URL=amqp://guest:guest@172.16.0.24:5672/%2F
+
+networks:
+  ocr-network:
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.enable_icc: "true"
+      com.docker.network.bridge.enable_ip_masquerade: "true"
+      com.docker.network.bridge.host_binding_ipv4: "0.0.0.0"
+      com.docker.network.driver.mtu: "1500"
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.16.0.0/24
+          gateway: 172.16.0.1
+
+  

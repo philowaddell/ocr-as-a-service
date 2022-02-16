@@ -1,0 +1,1 @@
+docker run -d --hostname rabbit-mq --name rabbit-service  --network ocr-network --ip 172.16.0.24 -p 15674:15674 -p 15672:15672 -p 5672:5672 rabbit-service
